@@ -975,7 +975,7 @@ function Timer1_Timer() {
             if ( TFreeze < 1 && RainQt > 0 ) {
                 Ovr = RainQt;
                 for (k = 0; k <= NxtDad + RainQt; k++) {
-                    if ( lava[k].Type == 0 || k > NxtDad ) {
+                    if ( lava[k].Type == 0  ) {
                         if ( Ovr > 0 ) {
                             Ovr = Ovr - 1;
                             lava[k].x = MX - 10 + Rnd() * 20;
@@ -1696,7 +1696,7 @@ function Timer1_Timer() {
         RainQt = 100;
         Ovr = RainQt;
         for (k = 0; k < NxtDad + RainQt; k++) {
-            if ( lava[k].Type == 0 || k > NxtDad ) {
+            if ( lava[k].Type == 0  ) {
                 if ( Ovr > 0 ) {
                     Ovr = Ovr - 1;
                     lava[k].x = MX - 10 + Rnd() * 20;
@@ -1837,10 +1837,10 @@ function ScreenDraw() {
                     //Me.FillStyle = 0;
                     //Me.FillColor = PolyX[i].Colour;
                     //Me.ForeColor = PolyX[i].Colour;
-                    strokewidth(1);
+                    //strokewidth(1);
                     fill(PolyX[i].Colour);
                     //if ( Check7.Value == 0 ) {
-                    var ssizex = d3d.size * PolyX[i].size*2;
+                    var ssizex = d3d.size * PolyX[i].size*1.5;
                     ellipse(d3d.x - ssizex, d3d.y - ssizex, ssizex, PolyX[i].Colour); //  //'
                     //} else {
                     //drawface(d3d.x, d3d.y, d3d.size * PolyX[i].size);
@@ -1855,7 +1855,7 @@ function ScreenDraw() {
                     //Me.FillColor = PolyX[i].Colour;
                     //Me.ForeColor = PolyX[i].Colour;
                     var ssizex = d3d.size * PolyX[i].size*1.5;
-                    strokewidth(1);
+                    //strokewidth(1);
                     fill(PolyX[i].Colour);
                     ellipse(d3d.x - ssizex, d3d.y - ssizex, ssizex, PolyX[i].Colour); //'
                     //Me.FillStyle = 1;
@@ -3496,6 +3496,7 @@ function Surface() {
 	Surf = false;
 
 	i = 0;
+    if (LstDad < NxtDad) {LstDad = NxtDad - 1;}
 	while (i < LstDad + 1) {
         try {
             if ( lava[i].Type == 0 ) {
@@ -3503,6 +3504,9 @@ function Surface() {
                 lava[i + 1].Type = 0;
             }
             if ( lava[i].Type == 0 ) { lava[i].Grav = false; }
+            //if (lava[i].Type == 77) {
+            //    text ("XX",0,20);
+            //} else {
             if ( lava[i].Grav == true && TFreeze < 1 ) {
                 
                 if ( lava[i].Height > 0 ) {
@@ -3557,6 +3561,7 @@ function Surface() {
             } else {
                 PolyX[i].Type = 99;
             }
+            //}
             if ( (lava[i].Type == 1 || lava[i].Type == 88 || lava[i].Type == 77) && Done[Int(lava[i].x)+25][Int(lava[i].y)+25] == true ) {
                 
                 hh = dist(lava[i].x, MX,lava[i].y, MY) * Colup; //' / 2  //' / 2
@@ -4048,7 +4053,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		if ( TFreeze < 1 && Cond != 1 ) {
 			Ovr = 20;
 			for (k = 0; k <= NxtDad + 20; k++) {
-				if ( lava[k].Type == 0 || k > NxtDad ) {
+				if ( lava[k].Type == 0  ) {
 					if ( Ovr > 0 ) {
 						Ovr = Ovr - 1;
 						lava[k].x = x - 3 + Rnd() * 6;
@@ -4078,7 +4083,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 				if ( Cond == 2 || Cond == 3 ) {
 					Ovr = Rnd()*3;
 					for (k = 0; k <= NxtDad + 5; k++) {
-						if ( lava[k].Type == 0 || k > NxtDad ) {
+						if ( lava[k].Type == 0  ) {
 							if ( Ovr > 0 ) {
 								Ovr = 0;
 								lava[k].x = i - 3 + Rnd() * 6;
@@ -4099,7 +4104,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 				} else {
 					Ovr = 5;
 					for (k = 0; k <= NxtDad + 5; k++) {
-						if ( lava[k].Type == 0 || k > NxtDad ) {
+						if ( lava[k].Type == 0  ) {
 							if ( Ovr > 0 ) {
 								Ovr = Ovr - 1;
 								lava[k].x = i - 3 + Rnd() * 6;
