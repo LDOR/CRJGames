@@ -184,6 +184,8 @@ function keyReleased(key) {
     
     //KeyDown[2]
 }
+var fromX = 0;
+var fromY = 0;
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
@@ -201,32 +203,67 @@ var myGameArea = {
             var x = event.clientX - this.offsetLeft;
             var y = event.clientY - this.offsetTop;
             shoot = true;
-            mousePressed(x, y);
+            mousePressed();
         }, false);
         this.canvas.addEventListener('mouseup', function(event) {
             var x = event.clientX - this.offsetLeft;
             var y = event.clientY - this.offsetTop;
             shoot = false;
-            mouseReleased(x, y);
+            mouseReleased();
         }, false);
         this.canvas.addEventListener('mousemove', function(event) {
             var x = event.clientX - this.offsetLeft;
             var y = event.clientY - this.offsetTop;
             //mouseX = x;
             //mouseY = y;
-            mouseX += event.movementX*3;
-            mouseY += event.movementY*3;
+            if (isNaN(event.movementX) == false) {
+                mouseX += event.movementX*3;
+                mouseY += event.movementY*3;
+                mouseM(event);
+            }
+            if (mouseY < 0) {mouseY = 0;}
+            if (mouseY > height) {mouseY = height;}
             //mouseM(x, y);
-            mouseM(event);
         }, false);
         addEventListener("keydown", function(event) {
             var key = String.fromCharCode(event.keyCode);
+            shoot = true;
             keyPressed(key);
         });
         addEventListener("keyup", function(event) {
             var key = String.fromCharCode(event.keyCode);
+            shoot = false;
             keyReleased(key);
         });
+        this.canvas.addEventListener('touchstart', function(event) {
+            var x = event.touches[0].clientX - this.offsetLeft;
+            var y = event.touches[0].clientY - this.offsetTop;
+            fromX = x;
+            fromY = y;
+        }, false);
+        this.canvas.addEventListener('touchend', function(event) {
+            var x = event.touches[0].clientX - this.offsetLeft;
+            var y = event.touches[0].clientY - this.offsetTop;
+            fromX = x;
+            fromY = y;
+        }, false);
+        this.canvas.addEventListener('touchmove', function(event) {
+            //e.preventDefault() // prevent scrolling when inside DIV
+            //var touches = evt.changedTouches;
+            var x = event.touches[0].clientX - this.offsetLeft;
+            var y = event.touches[0].clientY - this.offsetTop;
+            //var x = event.clientX - this.offsetLeft;
+            //var y = event.clientY - this.offsetTop;
+            //if (isNaN(x) == false) {
+            mouseX += x - fromX;
+            mouseY += y - fromY;
+            fromX = x;
+            fromY = y;
+            mouseM(event);
+            if (mouseY < 0) {mouseY = 0;}
+            if (mouseY > height) {mouseY = height;}
+            //}
+        }, false);
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         //this.interval = setInterval(updateGameArea, 20);
         this.interval = setInterval(draw, 50);
