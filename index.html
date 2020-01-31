@@ -227,12 +227,10 @@ var myGameArea = {
         }, false);
         addEventListener("keydown", function(event) {
             var key = String.fromCharCode(event.keyCode);
-            shoot = true;
             keyPressed(key);
         });
         addEventListener("keyup", function(event) {
             var key = String.fromCharCode(event.keyCode);
-            shoot = false;
             keyReleased(key);
         });
         this.canvas.addEventListener('touchstart', function(event) {
