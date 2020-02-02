@@ -186,6 +186,7 @@ function keyReleased(key) {
 }
 var fromX = 0;
 var fromY = 0;
+var oneshot = false;
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
@@ -220,6 +221,7 @@ var myGameArea = {
                 mouseX += event.movementX*3;
                 mouseY += event.movementY*3;
                 mouseM(event);
+                oneshot = false;
             }
             if (mouseY < 0) {mouseY = 0;}
             if (mouseY > height) {mouseY = height;}
@@ -234,29 +236,58 @@ var myGameArea = {
             keyReleased(key);
         });
         this.canvas.addEventListener('touchstart', function(event) {
+            KeyDown[2] = false;
+            KeyDown[38] = false;
+            oneshot = true;
+            //var x = event.touches[0].clientX - this.offsetLeft;
+            //var y = event.touches[0].clientY - this.offsetTop;
+            //fromX = x;
+            //fromY = y;
+            //for (var i = 0; i <= 0; i++) {
+            //    if (isNaN(event.touches[i].clientX) == false) {
             var x = event.touches[0].clientX - this.offsetLeft;
             var y = event.touches[0].clientY - this.offsetTop;
+            if (x > width / 4) {
+            } else if (y < height/2) {
+                KeyDown[2] = true;
+            } else {
+                KeyDown[38] = true;
+            }
             fromX = x;
             fromY = y;
+            //    }
+            //}
         }, false);
         this.canvas.addEventListener('touchend', function(event) {
-            var x = event.touches[0].clientX - this.offsetLeft;
-            var y = event.touches[0].clientY - this.offsetTop;
-            fromX = x;
-            fromY = y;
+            KeyDown[2] = false;
+            KeyDown[38] = false;
+            oneshot = true;
+            if (fromX > width/4) {
+                shoot = true;
+            }
         }, false);
         this.canvas.addEventListener('touchmove', function(event) {
+            KeyDown[2] = false;
+            KeyDown[38] = false;
+            oneshot = true;
             //e.preventDefault() // prevent scrolling when inside DIV
             //var touches = evt.changedTouches;
+            //for (var i = 0; i <= 0; i++) {
+            //    if (isNaN(event.touches[i].clientX) == false) {
             var x = event.touches[0].clientX - this.offsetLeft;
             var y = event.touches[0].clientY - this.offsetTop;
-            //var x = event.clientX - this.offsetLeft;
-            //var y = event.clientY - this.offsetTop;
-            //if (isNaN(x) == false) {
-            mouseX += x - fromX;
-            mouseY += y - fromY;
+            if (x > width / 4) {
+                mouseX += (x - fromX)*3;
+                mouseY += (y - fromY)*3;
+            } else if (y < height/2) {
+                KeyDown[2] = true;
+            } else {
+                KeyDown[38] = true;
+            }
             fromX = x;
             fromY = y;
+            //    }
+            //}
             mouseM(event);
             if (mouseY < 0) {mouseY = 0;}
             if (mouseY > height) {mouseY = height;}
@@ -1351,6 +1382,9 @@ function Timer1_Timer() {
             } else {
                 Rcoil = Rcoil - 4 / AvFrame;
             }
+            if (shoot == true && oneshot == true) {
+                shoot = false;
+            }
             
             
             if ( Weapon == 99 ) {
@@ -2444,6 +2478,20 @@ function ScreenDraw() {
     }
     rect(height / 60,height - height / 20, height / 60*20,height / 80 * 3, RGB(255,200,200));
     rect(height / 60,height - height / 20, Health / 100 * (height / 60*20),height / 80 * 3, RGB(50,50,200));
+    if (oneshot == true) {
+        fill({'r':255,'g':255,'b':255,'a':0});
+        stroke(RGB(255,255,255));
+        ellipse(height/12,height/12,height/6,RGB(255,255,255));
+        ellipse(height/12,height/12+height/2,height/6,RGB(255,255,255));
+        line(height/6,height/6,height/6,height/3,RGB(255,255,255));
+        line(height/6,height/3,height/3,height/3,RGB(255,255,255));
+        line(height/6,height/6,height/3,height/6,RGB(255,255,255));
+        line(height/6,height/6+height/12,height/3,height/6+height/12,RGB(255,255,255));
+        
+        line(height/6+height/12,height/6+height/2,height/6,height/3+height/2,RGB(255,255,255));
+        line(height/6+height/12,height/6+height/2,height/3,height/3+height/2,RGB(255,255,255));
+        
+    }
     
     FillStyle = 1;
     
@@ -5109,8 +5157,8 @@ function WeaponDrw() {
     } else {
         line(width/2 - 10,height/2,width/2 + 10,height/2,RGB(255,255,255));
         line(width/2,height/2 - 10,width/2,height/2 + 10,RGB(255,255,255));
-        fill({'r':255,'g':255,'b':255,'a':0})
-        stroke(RGB(255,255,255))
+        fill({'r':255,'g':255,'b':255,'a':0});
+        stroke(RGB(255,255,255));
         ellipse(width/2-20,height/2-20,20,RGB(255,255,255));
     }
     //Weapon = 1;
