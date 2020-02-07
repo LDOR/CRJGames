@@ -5154,7 +5154,7 @@ function WeaponDrw() {
     //text (Weapon, 0, 50);
     //ellipse(width/2 - 5,height/2-5,10,RGB(255,255,255));
     
-    if (Rcoil > 0) {
+    if (Rcoil > 0 || Ammo == 0) {
         line(width/2 - 5,height/2,width/2 + 5,height/2,RGB(255,0,0));
         line(width/2,height/2 - 5,width/2,height/2 + 5,RGB(255,0,0));
     } else {
