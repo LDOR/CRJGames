@@ -31,6 +31,9 @@ function startGame() {
     //height = 550;
     width = window.innerWidth;
     height = window.innerHeight;
+    if (height > width) {
+        height = width *0.9;
+    }
     
     // setup of the canvas
     var canvas = myGameArea.canvas;
