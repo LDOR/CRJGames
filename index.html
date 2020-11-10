@@ -368,6 +368,12 @@ function RGB(red,green,blue) {
             "b": Int(blue),
             "a": 255};
 }
+function RGBA(red,green,blue,a) {
+    return {"r": Int(red),
+            "g": Int(green),
+            "b": Int(blue),
+            "a": a};
+}
 function ellipse(x,y,w,c) {
     ctx = myGameArea.context;
     //color = c
@@ -1554,9 +1560,9 @@ function Timer1_Timer() {
             //'GZ = Math.cos(r2 * 4 * Math.atan(1) / 180) * Sqr(Math.abs(Zin) ^ 2 + Math.abs(GY) ^ 2)
             //'GY = Math.sin(r2 * 4 * Math.atan(1) / 180) * Sqr(Math.abs(Zin) ^ 2 + Math.abs(GY) ^ 2)
             if ( PY < 0 ) { PY = size + PY; }
-            if ( PX < 1 ) { PX = 1; }
+            if ( PX < 2 ) { PX = 2; }
             if ( PY > size ) { PY = PY - size; }
-            if ( PX > size - 1 ) { PX = size - 1; }
+            if ( PX > size - 2 ) { PX = size - 2; }
             
             if ( Weapon == 99 ) {
                 GX = Math.cos((90 - RX) * 4 * Math.atan(1) / 180);
@@ -1910,6 +1916,26 @@ function ScreenDraw() {
                     ellipse(d3d.x - ssizex, d3d.y - ssizex, ssizex, PolyX[i].Colour); //'
                     //Me.FillStyle = 1;
                 }
+            } else if ( PolyX[i].Type == 6 ) {
+                var d3d = To3D((PolyX[i].x[0] - MX) * 100, (PolyX[i].y[0] - MY) * 100, (PolyX[i].z[0] - MZ) * 100);
+                if ( d3d.x == 0 && d3d.y == 0 ) {
+                } else {
+                    //Me.FillStyle = 0;
+                    //Me.FillColor = PolyX[i].Colour;
+                    //Me.ForeColor = PolyX[i].Colour;
+                    var ssizex = d3d.size * PolyX[i].size*1.5;
+                    //strokewidth(1);
+                    var ctx = myGameArea.context;
+                    ctx.shadowColor='rgba(' + Int(PolyX[i].Colour.r) + ',' + Int(PolyX[i].Colour.g) + ',' + Int(PolyX[i].Colour.b) + ',1)';
+                    ctx.shadowBlur = 15;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 0;
+                    fill(PolyX[i].Colour);
+                    ellipse(d3d.x - ssizex, d3d.y - ssizex, ssizex, PolyX[i].Colour); //'
+                    //Me.FillStyle = 1;
+                    ctx.shadowColor='rgba(0,0,0,1)';
+                    ctx.shadowBlur = 0;
+                }
             } else if ( PolyX[i].Type == 1 ) {
                 sz = 0;
                 for (j = 0; j <= 1; j++) {
@@ -2109,6 +2135,8 @@ function ScreenDraw() {
                                 lava[NxtDad + 1].x = Int(Bullet[i].x[0] - 0.5) + 0.5;
                                 lava[NxtDad + 1].y = Int(Bullet[i].y[0] - 0.5) + 0.5;
                                 lava[NxtDad + 1].Color = RGB(0, 200, 0);
+                                if ( Cond == 3 ) { lava[NxtDad + 1].Color = RGB(200, 0, 0); }
+                                if ( Cond == 1 ) { lava[NxtDad + 1].Color = RGB(0, 200, 200); }
                                 lava[NxtDad + 1].Type = 88;
                                 lava[NxtDad + 1].speed = 0.04;
                                 lava[NxtDad + 1].Grav = true;
@@ -2119,6 +2147,8 @@ function ScreenDraw() {
                                 lava[NxtDad].x = Int(Bullet[i].x[0] - 0.5) + 0.5;
                                 lava[NxtDad].y = Int(Bullet[i].y[0] - 0.5) + 0.5;
                                 lava[NxtDad].Color = RGB(0, 200, 0);
+                                if ( Cond == 3 ) { lava[NxtDad].Color = RGB(200, 0, 0); }
+                                if ( Cond == 1 ) { lava[NxtDad].Color = RGB(0, 200, 200); }
                                 lava[NxtDad].Type = 88;
                                 lava[NxtDad].speed = 0.04;
                                 lava[NxtDad].Grav = true;
@@ -2127,6 +2157,8 @@ function ScreenDraw() {
                                 lava[NxtDad + 1].x = Int(Bullet[i].x[0] - 0.5) + 0.5;
                                 lava[NxtDad + 1].y = Int(Bullet[i].y[0] - 0.5) + 1.2;
                                 lava[NxtDad + 1].Color = RGB(0, 200, 0);
+                                if ( Cond == 3 ) { lava[NxtDad + 1].Color = RGB(200, 0, 0); }
+                                if ( Cond == 1 ) { lava[NxtDad + 1].Color = RGB(0, 200, 200); }
                                 lava[NxtDad + 1].Type = 88;
                                 lava[NxtDad + 1].speed = 0.04;
                                 lava[NxtDad + 1].Grav = true;
@@ -3228,24 +3260,24 @@ function Surface() {
 	GY = 0;
 
 	if ( Zoom > 1 ) {
-		Sidecut = 200;
+		Sidecut = 150;
 		//HScroll2Value = 25;
-        HScroll2Value = 15;
+        HScroll2Value = 30;
 		HScroll1Value = 5;
 	} else {
 		Sidecut = 0;
 		//'HScroll2.Value = 10
 		//HScroll2Value = 20;
-        HScroll2Value = 10;
-		HScroll1Value = 12
+        HScroll2Value = 20;
+		HScroll1Value = 8;
 	}
 
 	if ( Weapon == 98 || Weapon == 99 ) {
 		Sidecut = 0;
 		//'HScroll2.Value = 15
 		//HScroll2Value = 25;
-        HScroll2Value = 15;
-		HScroll1Value = 12;
+        HScroll2Value = 20;
+		HScroll1Value = 8;
 	}
 
 	l = 0;
@@ -4040,7 +4072,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		PolyX[LineAt].y[0] = j + 0.5;
 		PolyX[LineAt].z[0] = BallZ(i + 0.5, j + 0.5);
 		PolyX[LineAt].Colour = RGB(255 / hh, 50 / hh, 255 / hh);
-		PolyX[LineAt].Type = 3;
+		PolyX[LineAt].Type = 6;
 		PolyX[LineAt].size = 2;
 		LineAt = LineAt + 1;
 		WpObj = LineAt;
@@ -4049,7 +4081,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		PolyX[LineAt].y[0] = j + 0.5;
 		PolyX[LineAt].z[0] = BallZ(i + 0.5, j + 0.5);
 		PolyX[LineAt].Colour = RGB(255 / hh, 50 / hh, 50 / hh);
-		PolyX[LineAt].Type = 3;
+		PolyX[LineAt].Type = 6;
 		PolyX[LineAt].size = 2;
 		LineAt = LineAt + 1;
 		WpObj = LineAt;
@@ -4058,7 +4090,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		PolyX[LineAt].y[0] = j + 0.5;
 		PolyX[LineAt].z[0] = BallZ(i + 0.5, j + 0.5);
 		PolyX[LineAt].Colour = RGB(50 / hh, 255 / hh, 255 / hh);
-		PolyX[LineAt].Type = 3;
+		PolyX[LineAt].Type = 6;
 		PolyX[LineAt].size = 2;
 		LineAt = LineAt + 1;
 		WpObj = LineAt;
@@ -4067,7 +4099,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		PolyX[LineAt].y[0] = j + 0.5;
 		PolyX[LineAt].z[0] = BallZ(i + 0.5, j + 0.5);
 		PolyX[LineAt].Colour = RGB(255 / hh, 255 / hh, 255 / hh);
-		PolyX[LineAt].Type = 3;
+		PolyX[LineAt].Type = 6;
 		PolyX[LineAt].size = 2;
 		LineAt = LineAt + 1;
 		WpObj = LineAt;
@@ -4076,7 +4108,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		PolyX[LineAt].y[0] = j + 0.5;
 		PolyX[LineAt].z[0] = BallZ(i + 0.5, j + 0.5);
 		PolyX[LineAt].Colour = RGB(255 / hh, 255 / hh, 50 / hh);
-		PolyX[LineAt].Type = 3;
+		PolyX[LineAt].Type = 6;
 		PolyX[LineAt].size = 2;
 		LineAt = LineAt + 1;
 		WpObj = LineAt;
@@ -4085,7 +4117,7 @@ function mkdad(i = 0, j = 0, hh = 0) { //xAs Double)
 		PolyX[LineAt].y[0] = j + 0.5;
 		PolyX[LineAt].z[0] = BallZ(i + 0.5, j + 0.5);
 		PolyX[LineAt].Colour = RGB(50 / hh, 50 / hh, 255 / hh);
-		PolyX[LineAt].Type = 3;
+		PolyX[LineAt].Type = 6;
 		PolyX[LineAt].size = 2;
 		LineAt = LineAt + 1;
 		WpObj = LineAt;
