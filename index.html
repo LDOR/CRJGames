@@ -3572,144 +3572,147 @@ function Surface() {
 	Hrzon[nn1].y = height / 15;
 
 
-	if ( Rainfor >= 0 && PlayerX == 0 ) {
-		k = Rnd() * 500;
-		if ( k < nn1 ) {
-			if ( Hrzon[k].x > 0 ) {
-				Hrzon[nn1 + 2] = Hrzon[k];
-				//Me.DrawWidth = 4;
-				do {
-					Hrzon[nn1 + 3] = Hrzon[nn1 + 2];
-					Hrzon[nn1 + 2].x = Hrzon[nn1 + 2].x - (width / 256) + Rnd() * (width / 128);
-					Hrzon[nn1 + 2].y = Hrzon[nn1 + 2].y + (width / 1024) - Rnd() * (width / 256);
-					line(Hrzon[nn1 + 2].x * 15, Hrzon[nn1 + 2].y * 15,Hrzon[nn1 + 3].x * 15, Hrzon[nn1 + 3].y * 15, RGB(255, 255, 255));
-				} while (Hrzon[nn1 + 2].y >= 0);
-				//Me.DrawWidth = 0
-			}
-		}
-	}
+    try { //rain
+        if ( Rainfor >= 0 && PlayerX == 0 ) {
+            k = Rnd() * 500;
+            if ( k < nn1 ) {
+                if ( Hrzon[k].x > 0 ) {
+                    Hrzon[nn1 + 2] = Hrzon[k];
+                    //Me.DrawWidth = 4;
+                    do {
+                        Hrzon[nn1 + 3] = Hrzon[nn1 + 2];
+                        Hrzon[nn1 + 2].x = Hrzon[nn1 + 2].x - (width / 256) + Rnd() * (width / 128);
+                        Hrzon[nn1 + 2].y = Hrzon[nn1 + 2].y + (width / 1024) - Rnd() * (width / 256);
+                        line(Hrzon[nn1 + 2].x * 15, Hrzon[nn1 + 2].y * 15,Hrzon[nn1 + 3].x * 15, Hrzon[nn1 + 3].y * 15, RGB(255, 255, 255));
+                    } while (Hrzon[nn1 + 2].y >= 0);
+                    //Me.DrawWidth = 0
+                }
+            }
+        }
 
-	Surf = false;
+        Surf = false;
 
-	i = 0;
-    if (LstDad < NxtDad) {LstDad = NxtDad - 1;}
-	while (i < LstDad + 1) {
-        try {
-            if ( lava[i].Type == 0 ) {
-                lava[i] = lava[i + 1];
-                lava[i + 1] = {"x": 0,
+        i = 0;
+        if (LstDad < NxtDad) {LstDad = NxtDad - 1;}
+        while (i < LstDad + 1) {
+            try {
+                if ( lava[i].Type == 0 ) {
+                    lava[i] = lava[i + 1];
+                    lava[i + 1] = {"x": 0,
+                        "y": 0,
+                        "Type": 0,
+                        "Color": RGB(0,0,0),
+                        "speed": 0,
+                        "Grav": 0,
+                        "Height": 0};
+                }
+                if ( lava[i].Type == 0 ) { lava[i].Grav = false; }
+                //if (lava[i].Type == 77) {
+                //    text ("XX",0,20);
+                //} else {
+                if ( lava[i].Grav == true && TFreeze < 1 ) {
+                    
+                    if ( lava[i].Height > 0 ) {
+                        if ( lava[i].Type == 88 || lava[i].Type == 77 ) {
+                            lava[i].Height = lava[i].Height - lava[i].speed / 15 * 20;
+                        } else {
+                            lava[i].Height = lava[i].Height - lava[i].speed / 15 * 100;
+                        }
+                        if ( lava[i].Height < 0 ) { lava[i].Height = 0; }
+                    } else {
+                        lava[i].Height = 0;
+                    
+                        try {
+                            T = BallZ(lava[i].x, lava[i].y);
+                            if ( T < wl ) { lava[i].Type = 0; }
+                            XX = lava[i].x;
+                            YY = lava[i].y;
+                            
+                            for (loopx = -1; loopx <= 1; loopx++) {
+                                for (loopy = -1; loopy <= 1; loopy++) {
+                                    W = BallZ(lava[i].x - lava[i].speed * loopx / 15 * 20, lava[i].y - lava[i].speed * loopy / 15 * 20);
+                                    //if ( Rnd() * 200 == 1 ) {
+                                        //block(lava[i].x - lava[i].speed * loopx / AvFrame * 20, lava[i].y - lava[i].speed * loopy / AvFrame * 20) = block(XX, YY) - 0.05;s
+                                    //    _block[Int(lava[i].x - lava[i].speed * loopx / AvFrame * 20+25)][Int(lava[i].y - lava[i].speed * loopy / AvFrame * 20+25)] = _block[Int(XX)+25][Int(YY)+25] - 0.05;
+                                    //}
+                                    if ( W < T ) {
+                                        XX = lava[i].x - lava[i].speed * loopx / 15 * 20;
+                                        YY = lava[i].y - lava[i].speed * loopy / 15 * 20;
+                                        T = W;
+                                    }
+                                }; //Next loopy
+                            }; //Next loopx
+                            
+                            W = T;
+                        } catch(e) {
+                            XX = lava[i].x;
+                            YY = lava[i].y;
+                        }
+                        
+                        if ( lava[i].Type == 88 || lava[i].Type == 77 ) {
+                            //if ( XX == lava[i].x && YY == lava[i].y ) { lava[i].Type = 0; }
+                            lava[i].x = XX;
+                            lava[i].y = YY;
+                            
+                            if ( Elev(XX, YY) > 0 ) { lava[i].Type = 0; }
+                            if ( doodad(XX, YY) > 0 && doodad(XX, YY) < 100 ) { lava[i].Type = 0; }
+                        } else {
+                            if ( XX == lava[i].x && YY == lava[i].y ) { lava[i].Type = 0; }
+                            lava[i].x = XX;
+                            lava[i].y = YY;
+                            
+                            if ( Elev(XX, YY) > 0 ) { lava[i].Type = 0; }
+                            if ( doodad(XX, YY) > 0 && doodad(XX, YY) < 100 ) { lava[i].Type = 0; }
+                            if ( Done[Int(XX)+25][Int(YY)+25] == false ) { lava[i].Type = 0; }
+                        }
+                    }
+                } else {
+                    PolyX[i].Type = 99;
+                }
+                //}
+                if ( (lava[i].Type == 1 || lava[i].Type == 88 || lava[i].Type == 77) && Done[Int(lava[i].x)+25][Int(lava[i].y)+25] == true ) {
+                    
+                    //hh = dist(lava[i].x, MX,lava[i].y, MY) * Colup; //' / 2  //' / 2
+                    //'if hh < 1.4 then hh = 1.4
+                    //if ( hh < 1.4 ) { hh = 1.4; }
+                    PolyX[i].x[0] = lava[i].x;
+                    PolyX[i].y[0] = lava[i].y;
+                    PolyX[i].z[0] = BallZ(lava[i].x, lava[i].y) + lava[i].Height;
+                    PolyX[i].Colour = Disy(lava[i].Color, 1); //'
+                    PolyX[i].Type = 3;
+                    if ( lava[i].Type == 88 ) {
+                        PolyX[i].size = 8;
+                    } else if ( lava[i].Type == 77 ) {
+                        PolyX[i].size = 2;
+                        PolyX[i].Type = 77;
+                    } else {
+                        PolyX[i].size = 0.4;
+                    }
+                } else {
+                    PolyX[i].Type = 99;
+                }
+                i = i + 1;
+            } catch(e) {
+                lava[i] = {"x": 0,
                     "y": 0,
                     "Type": 0,
-					"Color": RGB(0,0,0),
-					"speed": 0,
-					"Grav": 0,
-					"Height": 0};
+                    "Color": RGB(0,0,0),
+                    "speed": 0,
+                    "Grav": 0,
+                    "Height": 0};
+                i = i + 1;
             }
-            if ( lava[i].Type == 0 ) { lava[i].Grav = false; }
-            //if (lava[i].Type == 77) {
-            //    text ("XX",0,20);
-            //} else {
-            if ( lava[i].Grav == true && TFreeze < 1 ) {
-                
-                if ( lava[i].Height > 0 ) {
-                    if ( lava[i].Type == 88 || lava[i].Type == 77 ) {
-                        lava[i].Height = lava[i].Height - lava[i].speed / 15 * 20;
-                    } else {
-                        lava[i].Height = lava[i].Height - lava[i].speed / 15 * 100;
-                    }
-                    if ( lava[i].Height < 0 ) { lava[i].Height = 0; }
-                } else {
-                    lava[i].Height = 0;
-                
-                    try {
-                        T = BallZ(lava[i].x, lava[i].y);
-                        if ( T < wl ) { lava[i].Type = 0; }
-                        XX = lava[i].x;
-                        YY = lava[i].y;
-                        
-                        for (loopx = -1; loopx <= 1; loopx++) {
-                            for (loopy = -1; loopy <= 1; loopy++) {
-                                W = BallZ(lava[i].x - lava[i].speed * loopx / 15 * 20, lava[i].y - lava[i].speed * loopy / 15 * 20);
-                                //if ( Rnd() * 200 == 1 ) {
-                                    //block(lava[i].x - lava[i].speed * loopx / AvFrame * 20, lava[i].y - lava[i].speed * loopy / AvFrame * 20) = block(XX, YY) - 0.05;s
-                                //    _block[Int(lava[i].x - lava[i].speed * loopx / AvFrame * 20+25)][Int(lava[i].y - lava[i].speed * loopy / AvFrame * 20+25)] = _block[Int(XX)+25][Int(YY)+25] - 0.05;
-                                //}
-                                if ( W < T ) {
-                                    XX = lava[i].x - lava[i].speed * loopx / 15 * 20;
-                                    YY = lava[i].y - lava[i].speed * loopy / 15 * 20;
-                                    T = W;
-                                }
-                            }; //Next loopy
-                        }; //Next loopx
-                        
-                        W = T;
-                    } catch(e) {
-                        XX = lava[i].x;
-                        YY = lava[i].y;
-                    }
-                    
-                    if ( lava[i].Type == 88 || lava[i].Type == 77 ) {
-                        //if ( XX == lava[i].x && YY == lava[i].y ) { lava[i].Type = 0; }
-                        lava[i].x = XX;
-                        lava[i].y = YY;
-                        
-                        if ( Elev(XX, YY) > 0 ) { lava[i].Type = 0; }
-                        if ( doodad(XX, YY) > 0 && doodad(XX, YY) < 100 ) { lava[i].Type = 0; }
-                    } else {
-                        if ( XX == lava[i].x && YY == lava[i].y ) { lava[i].Type = 0; }
-                        lava[i].x = XX;
-                        lava[i].y = YY;
-                        
-                        if ( Elev(XX, YY) > 0 ) { lava[i].Type = 0; }
-                        if ( doodad(XX, YY) > 0 && doodad(XX, YY) < 100 ) { lava[i].Type = 0; }
-                        if ( Done[Int(XX)+25][Int(YY)+25] == false ) { lava[i].Type = 0; }
-                    }
-                }
-            } else {
-                PolyX[i].Type = 99;
-            }
-            //}
-            if ( (lava[i].Type == 1 || lava[i].Type == 88 || lava[i].Type == 77) && Done[Int(lava[i].x)+25][Int(lava[i].y)+25] == true ) {
-                
-                //hh = dist(lava[i].x, MX,lava[i].y, MY) * Colup; //' / 2  //' / 2
-                //'if hh < 1.4 then hh = 1.4
-                //if ( hh < 1.4 ) { hh = 1.4; }
-                PolyX[i].x[0] = lava[i].x;
-                PolyX[i].y[0] = lava[i].y;
-                PolyX[i].z[0] = BallZ(lava[i].x, lava[i].y) + lava[i].Height;
-                PolyX[i].Colour = Disy(lava[i].Color, 1); //'
-                PolyX[i].Type = 3;
-                if ( lava[i].Type == 88 ) {
-                    PolyX[i].size = 8;
-                } else if ( lava[i].Type == 77 ) {
-                    PolyX[i].size = 2;
-                    PolyX[i].Type = 77;
-                } else {
-                    PolyX[i].size = 0.4;
-                }
-            } else {
-                PolyX[i].Type = 99;
-            }
-            i = i + 1;
-        } catch(e) {
-            lava[i] = {"x": 0,
-                "y": 0,
-                "Type": 0,
-                "Color": RGB(0,0,0),
-                "speed": 0,
-                "Grav": 0,
-                "Height": 0};
-            i = i + 1;
         }
-	}
 
-	if ( NxtDad > 1 ) {
-		while (lava[NxtDad].Type == 0 && NxtDad > 1) {
-			NxtDad = NxtDad - 1;
-		}
-		NxtDad = NxtDad + 1;
-	}
-    fill(RGB(255,255,255));
+        if ( NxtDad > 1 ) {
+            while (lava[NxtDad].Type == 0 && NxtDad > 1) {
+                NxtDad = NxtDad - 1;
+            }
+            NxtDad = NxtDad + 1;
+        }
+        fill(RGB(255,255,255));
+    } catch(e) {
+    }
     //text ("Christopher Rhys Jones" + NxtDad + "," + lava[NxtDad - 1].Type + lava[NxtDad].Type, 0, height - 50);
 }
 var Check8Value = 0;
