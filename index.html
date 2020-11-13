@@ -1458,14 +1458,14 @@ function Timer1_Timer() {
                             txt = "Press E to Pick Up Shotgun";
                             if ( Weapon == 4 ) {
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Ammo = 12;
+                                //Ammo = 12;
                                 txt = "Picked Up Shotgun Ammo";
                                 Clip2 = true;
                             }
                             if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 4;
                                 Ammo = 12;
-                                Clip2 = true;
+                                Clip2 = false;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
                             }
                         }
@@ -1473,14 +1473,14 @@ function Timer1_Timer() {
                             txt = "Press E to Pick Up Rocket Launcher";
                             if ( Weapon == 1 ) {
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Ammo = 2;
+                                //Ammo = 2;
                                 txt = "Picked Up Rocket Launcher Ammo";
                                 Clip2 = true;
                             }
                             if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 1;
                                 Ammo = 2;
-                                Clip2 = true;
+                                Clip2 = false;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
                             }
                         }
@@ -1488,14 +1488,14 @@ function Timer1_Timer() {
                             txt = "Press E to Pick Up Grenade Launcher";
                             if ( Weapon == 3 ) {
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Ammo = 6;
+                                //Ammo = 6;
                                 txt = "Picked Up Grenade Launcher Ammo";
                                 Clip2 = true;
                             }
                             if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 3;
                                 Ammo = 6;
-                                Clip2 = true;
+                                Clip2 = false;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
                             }
                         }
@@ -1503,14 +1503,14 @@ function Timer1_Timer() {
                             txt = "Press E to Pick Up Pistol";
                             if ( Weapon == 0 ) {
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Ammo = 17;
+                                //Ammo = 17;
                                 txt = "Picked Up Pistol Ammo";
                                 Clip2 = true;
                             }
                             if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 0;
                                 Ammo = 17;
-                                Clip2 = true;
+                                Clip2 = false;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
                             }
                         }
@@ -1518,14 +1518,14 @@ function Timer1_Timer() {
                             txt = "Press E to Pick Up Sniper";
                             if ( Weapon == 2 ) {
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Ammo = 5;
+                                //Ammo = 5;
                                 txt = "Picked Up Sniper Ammo";
                                 Clip2 = true;
                             }
                             if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 2;
                                 Ammo = 5;
-                                Clip2 = true;
+                                Clip2 = false;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
                             }
                         }
@@ -1533,7 +1533,7 @@ function Timer1_Timer() {
                             txt = "Press E to Pick Up Scar-H";
                             if ( Weapon == 5 ) {
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Ammo = 20;
+                                //Ammo = 20;
                                 txt = "Picked Up Scar-H Ammo";
                                 Clip2 = true;
                             }
@@ -1541,7 +1541,7 @@ function Timer1_Timer() {
                                 Weapon = 5;
                                 Ammo = 20;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
-                                Clip2 = true;
+                                Clip2 = false;
                             }
                         }
                         if ( doodad(PX - 0.5 + i, PY - 0.5 + j) == 133 ) {
