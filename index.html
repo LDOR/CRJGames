@@ -397,6 +397,14 @@ function msgbox(txt) {
     text(txt,0,0)
 }
 
+
+function arc(x, y, w, rad) {
+  ctx = myGameArea.context;
+  ctx.beginPath();
+  ctx.arc(x, y, w, (rad-15) / 360 * 2 * Math.PI, (rad+15) / 360 * 2 * Math.PI);
+  ctx.stroke();
+}
+
 function drawEllipse(ctx, x, y, w, h,add) {
   //https://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
   var kappa = .5522848,
@@ -1454,7 +1462,7 @@ function Timer1_Timer() {
                                 txt = "Picked Up Shotgun Ammo";
                                 Clip2 = true;
                             }
-                            if ( (KeyDown[2]) ) {
+                            if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 4;
                                 Ammo = 12;
                                 Clip2 = true;
@@ -1469,7 +1477,7 @@ function Timer1_Timer() {
                                 txt = "Picked Up Rocket Launcher Ammo";
                                 Clip2 = true;
                             }
-                            if ( (KeyDown[2]) ) {
+                            if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 1;
                                 Ammo = 2;
                                 Clip2 = true;
@@ -1484,7 +1492,7 @@ function Timer1_Timer() {
                                 txt = "Picked Up Grenade Launcher Ammo";
                                 Clip2 = true;
                             }
-                            if ( (KeyDown[2]) ) {
+                            if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 3;
                                 Ammo = 6;
                                 Clip2 = true;
@@ -1499,7 +1507,7 @@ function Timer1_Timer() {
                                 txt = "Picked Up Pistol Ammo";
                                 Clip2 = true;
                             }
-                            if ( (KeyDown[2]) ) {
+                            if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 0;
                                 Ammo = 17;
                                 Clip2 = true;
@@ -1514,7 +1522,7 @@ function Timer1_Timer() {
                                 txt = "Picked Up Sniper Ammo";
                                 Clip2 = true;
                             }
-                            if ( (KeyDown[2]) ) {
+                            if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 2;
                                 Ammo = 5;
                                 Clip2 = true;
@@ -1529,7 +1537,7 @@ function Timer1_Timer() {
                                 txt = "Picked Up Scar-H Ammo";
                                 Clip2 = true;
                             }
-                            if ( (KeyDown[2]) ) {
+                            if ( (KeyDown[2]) || (Ammo == 0 && Weapon < 98) ) {
                                 Weapon = 5;
                                 Ammo = 20;
                                 _doodad[Int(PX - 0.5 + i+25)][Int(PY - 0.5 + j+25)] = 0;
@@ -1935,6 +1943,16 @@ function ScreenDraw() {
                     //Me.FillStyle = 1;
                     ctx.shadowColor='rgba(0,0,0,1)';
                     ctx.shadowBlur = 0;
+                    
+                    if (Ammo <= 0 && Weapon < 98) {
+                        strokewidth(6);
+                        fill(RGB(255,0,0));
+                        arc(d3d.x, d3d.y, ssizex*2,(0+Frame)%360);
+                        arc(d3d.x, d3d.y, ssizex*2,(90+Frame)%360);
+                        arc(d3d.x, d3d.y, ssizex*2,(180+Frame)%360);
+                        arc(d3d.x, d3d.y, ssizex*2,(270+Frame)%360);
+                    }
+                    
                 }
             } else if ( PolyX[i].Type == 1 ) {
                 sz = 0;
@@ -5291,6 +5309,18 @@ function WeaponDrw() {
             rect((i+1) * height / 60,height - height / 20 * 2, height / 80,height / 80 * 3, RGB(255,200,200));
         }
     }
+    
+    strokewidth(6);
+    for (var i = 0; i <= 5; i++) {
+        if (fromt[i] > 0) {
+            ctx = myGameArea.context;
+            ctx.strokeStyle = 'rgba(255,0,0,' + (fromt[i]/255) + ')';
+            fromt[i] -= 1;
+            arc(width/2,height/2,height/16,fromr[i] + RX);
+        }
+        //rect((i+1) * height / 60,height - height / 20 *3, height / 80,height / 80 * 3, RGB(255,0,0));
+    }
+    strokewidth(1);
 }
 
 </script>
