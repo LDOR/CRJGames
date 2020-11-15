@@ -1165,25 +1165,25 @@ function Timer1_Timer() {
                     }
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 190 && HtInc < 2 ) {
                     //HtInc = (PY - Int(PY)) * 1.5;
-                    HtInc = 1.5 - (PY - Int(PY)) * 1.5;
+                    HtInc = (PY - Int(PY - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 191 && HtInc < 2 ) {
-                    HtInc = 1.5 - (PX - Int(PX)) * 1.5;
+                    HtInc = 1.5 - (PX - Int(PX - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 192 && HtInc < 2 ) {
-                    HtInc = 1.5 - (PY - Int(PY)) * 1.5;
+                    HtInc = 1.5 - (PY - Int(PY - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 193 && HtInc < 2 ) {
                     //HtInc = (PX - Int(PX)) * 1.5;
-                    HtInc = 1.5 - (PX - Int(PX)) * 1.5;
+                    HtInc = (PX - Int(PX - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 194 && HtInc > 1 ) {
                     //HtInc = 1.5 + (PY - Int(PY)) * 1.5;
-                    HtInc = 3 - (PY - Int(PY)) * 1.5;
+                    HtInc = 1.5 + (PY - Int(PY - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 195 && HtInc > 1 ) {
-                    HtInc = 3 - (PX - Int(PX)) * 1.5;
+                    HtInc = 3 - (PX - Int(PX - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 196 && HtInc > 1 ) {
-                    HtInc = 3 - (PY - Int(PY)) * 1.5;
+                    HtInc = 3 - (PY - Int(PY - 0.5)) * 1.5;
                 } else if ( doodad(PX - 0.5, PY - 0.5) == 197 && HtInc > 1 ) {
                     //HtInc = 1.5 + (PX - Int(PX)) * 1.5;
-                    HtInc = 3 - (PX - Int(PX)) * 1.5;
-                
+                    HtInc = 1.5 + (PX - Int(PX - 0.5)) * 1.5;
+                    
                 } else if ( HtInc > 1 && HtInc < 2 ) {
                     HtInc = 1.5;
                 } else if ( HtInc > 2.5 ) {
@@ -2714,10 +2714,10 @@ function BuildMap() {
                 }; //Next j
             }; //Next i
             
-            _doodad[housex + 2 + 25][housey + 2 + 25] = 190 + Rnd() * 8;
-            _doodad[housex + 5 + 25][housey + 2 + 25] = 190 + Rnd() * 8;
-            _doodad[housex + 2 + 25][housey + 5 + 25] = 190 + Rnd() * 8;
-            _doodad[housex + 5 + 25][housey + 5 + 25] = 190 + Rnd() * 8;
+            _doodad[housex + 2 + 25][housey + 2 + 25] = 190 + Int(Rnd() * 8);
+            _doodad[housex + 5 + 25][housey + 2 + 25] = 190 + Int(Rnd() * 8);
+            _doodad[housex + 2 + 25][housey + 5 + 25] = 190 + Int(Rnd() * 8);
+            _doodad[housex + 5 + 25][housey + 5 + 25] = 190 + Int(Rnd() * 8);
         }
     }; //Next k
 
