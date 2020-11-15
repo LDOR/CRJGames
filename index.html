@@ -3668,7 +3668,7 @@ function Surface() {
                         }
                         
                         if ( lava[i].Type == 88 || lava[i].Type == 77 ) {
-                            //if ( XX == lava[i].x && YY == lava[i].y ) { lava[i].Type = 0; }
+                            if ( XX == lava[i].x && YY == lava[i].y ) { lava[i].Type = 0; }
                             lava[i].x = XX;
                             lava[i].y = YY;
                             
@@ -4951,7 +4951,7 @@ function DrawCar(XX = 0, YY = 0, Rot = 0) { //xAs Double)
 		}; //Next j
 		DistX = size * 3;
 		//var averagexx = Avge[i];
-        if (part[i].Type == 4) {
+        if (part[i].Type == 1) {
             DistX = dist(MX, (part[i].x[0] + part[i].x[1] + part[i].x[2] + part[i].x[3])/4,MY, (part[i].y[0] + part[i].y[1] + part[i].y[2] + part[i].y[3])/4)
             DistX = dist(0,DistX,MZ + 0.5, (part[i].z[0] + part[i].z[1] + part[i].z[2] + part[i].z[3])/4)
         } else {
@@ -5166,7 +5166,7 @@ function DrawPlane(XX = 0, YY = 0, ZZ = 0, Rot = 0) {
 		}; //Next j
 		DistX = size * 3;
 		//var averagexx = Avge[i];
-        if (part[i].Type == 4) {
+        if (part[i].Type == 1) {
             DistX = dist(MX, (part[i].x[0] + part[i].x[1] + part[i].x[2] + part[i].x[3])/4,MY, (part[i].y[0] + part[i].y[1] + part[i].y[2] + part[i].y[3])/4)
             DistX = dist(0,DistX,MZ + 0.5, (part[i].z[0] + part[i].z[1] + part[i].z[2] + part[i].z[3])/4)
         } else {
@@ -5257,6 +5257,7 @@ function WeaponDrw() {
     //text (Weapon, 0, 50);
     //ellipse(width/2 - 5,height/2-5,10,RGB(255,255,255));
     
+    if (Ammo == 0) {Rcoil = 0;}
     if (Rcoil > 0 || Ammo == 0) {
         line(width/2 - 5,height/2,width/2 + 5,height/2,RGB(255,0,0));
         line(width/2,height/2 - 5,width/2,height/2 + 5,RGB(255,0,0));
