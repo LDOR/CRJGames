@@ -428,6 +428,67 @@ function drawEllipse(ctx, x, y, w, h,add) {
   ctx.stroke();
 }
 
+function logo(x,y,size) {
+
+    var ctx = myGameArea.context;
+    
+    fill(RGBA(0,0,255,0.5));
+    stroke(0,0,0);
+    ctx.beginPath();
+    ctx.moveTo(x+size/2-size*0.085, y+size*0.785);
+    ctx.arc(x+size/2-size*0.12, y+size*0.88, size*0.1, 1.5 * Math.PI, 0.5 * Math.PI);
+    //ctx.arc(x+size/2, y+size*0.9, size*0.1, 1.5 * Math.PI, 0.5 * Math.PI);
+    ctx.arc(x+size/2, y+size/2, size/2, 0.59 * Math.PI, 1.5 * Math.PI);
+    ctx.arc(x+size/2, y+size*0.1, size*0.1, 1.5 * Math.PI, 0.5 * Math.PI);
+    ctx.arc(x+size/2, y+size/2, size*0.3, 1.5 * Math.PI, 0.6 * Math.PI,true);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+    
+    fill(RGBA(255,0,0,0.5));
+    stroke(0,0,0);
+    ctx.beginPath();
+    ctx.moveTo(x+size/2, y+size*0.2);
+    ctx.arc(x+size/2, y+size*0.1, size*0.1, 0.5 * Math.PI, 2 * Math.PI,true);
+    ctx.arc(x+size/2+size*0.2, y+size*0.1, size*0.1, 1 * Math.PI, 1.5 * Math.PI);
+    ctx.lineTo(x+size/2+size*0.5,y);
+    ctx.arc(x+size/2+size*0.6 - size*0.05, y+size*0.1, size*0.1, 1.5 * Math.PI, 0.5 * Math.PI);
+    ctx.lineTo(x+size/2+size*0.5 - size*0.05,y+size*0.2);
+    ctx.lineTo(x+size/2+size*0.5 - size*0.05,y+size*0.8);
+    ctx.arc(x+size/2+size*0.3 - size*0.05, y+size*0.8, size*0.2, 0 * Math.PI, 1 * Math.PI);
+    ctx.arc(x+size/2+size*0.17 - size*0.05, y+size*0.80, size*0.07, 1 * Math.PI, 2 * Math.PI);
+    ctx.arc(x+size/2+size*0.29 - size*0.05, y+size*0.85, size*0.05, 1 * Math.PI, 0 * Math.PI,true);
+    ctx.lineTo(x+size/2+size*0.34 - size*0.05,y+size*0.2);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+    
+    fill(RGBA(0,255,0,0.5));
+    stroke(0,0,0);
+    ctx.beginPath();
+    ctx.moveTo(x+size/2, y+size*0.2);
+    ctx.arc(x+size/2, y+size/2, size*0.3, 1.5 * Math.PI, 0.6 * Math.PI,true);
+    ctx.arc(x+size/2-size*0.12, y+size*0.88, size*0.1, 1.6* Math.PI, 0.2 * Math.PI);
+    
+    ctx.arc(x+size/2+size*0.0, y+size*0.94, size*0.04, 1 * Math.PI, 0 * Math.PI,true);
+    
+    ctx.arc(x+size/2+size*0.17 - size*0.05, y+size*0.80, size*0.07, 1 * Math.PI, 2 * Math.PI);
+    ctx.arc(x+size/2+size*0.29 - size*0.05, y+size*0.85, size*0.05, 1 * Math.PI, 0 * Math.PI,true);
+    ctx.lineTo(x+size/2+size*0.34 - size*0.05,y+size*0.2);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+    
+    fill(RGBA(255,0,0,0.5));
+    stroke(0,0,0);
+    ctx.beginPath();
+    ctx.moveTo(x+size/2+size*0.15, y+size/2);
+    ctx.arc(x+size/2+size*0.03, y+size/2, size*0.12,0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+}
+
 
 var imges = new Array(10);
 function picture(x,y,w,h,name, angle) {
@@ -2527,9 +2588,10 @@ function ScreenDraw() {
         
         //Me.FillStyle = 1;
     }
+    logo(1,1,29);
     fill(RGB(255,255,255));
-    text ("Max Lanzetti (Gun Models)", 0, 15);
-    text ("Christopher Rhys Jones", 0, 30);
+    text ("Max Lanzetti (Gun Models)", 35, 15);
+    text ("Christopher Rhys Jones", 35, 30);
     text ("Kills " + Kills, 0, height - height/20*3 - 15);
     //text (Weapon, 0, 60);
     
