@@ -191,6 +191,8 @@ var fromX = 0;
 var fromY = 0;
 var oneshot = false;
 
+var lst_x = 0;
+var lst_y = 0;
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -219,12 +221,19 @@ var myGameArea = {
             var x = event.clientX - this.offsetLeft;
             var y = event.clientY - this.offsetTop;
             //mouseX = x;
-            //mouseY = y;
+            //mouseY = y
             if (isNaN(event.movementX) == false) {
                 mouseX += event.movementX*3;
                 mouseY += event.movementY*3;
                 mouseM(event);
                 oneshot = false;
+            } else {
+                mouseX += (x - lst_x)*3;
+                mouseY += (y - lst_y)*3;
+                mouseM(event);
+                oneshot = false;
+                lst_x = x;
+                lst_y = y;
             }
             if (mouseY < 0) {mouseY = 0;}
             if (mouseY > height) {mouseY = height;}
